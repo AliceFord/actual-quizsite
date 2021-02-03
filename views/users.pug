@@ -1,0 +1,8 @@
+extends template
+
+block extraScripts
+    link(rel='stylesheet' href='/stylesheets/signin.css')
+
+block content
+    form.form-signin(style='text-align: center!important;' method='post')
+        button.btn.btn-lg.btn-outline-success.btn-block(type='submit') Sign out

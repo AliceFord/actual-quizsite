@@ -1,0 +1,20 @@
+extends template
+
+block extraScripts
+    link(rel='stylesheet' href='/stylesheets/signin.css')
+
+block content
+    form.form-signin(style='text-align: center!important;' method='post')
+        h1.h3.mb-3.font-weight-normal Sign up
+        label.sr-only(for='inputFirstName') First Name
+        input.form-control#inputFirstName(type='text' placeholder='First Name' name='fname' required autofocus)
+        label.sr-only(for='inputLastName') Last Name
+        input.form-control#inputLastName(type='text' placeholder='Last Name' name='lname' required)
+        label.sr-only(for='inputUsername') Username
+        input.form-control#inputUsername(type='text' placeholder='Username' name='username' required)
+        label.sr-only(for='inputEmail') Email address
+        input.form-control#inputEmail(type='email' placeholder='Email address' name='email' required)
+        label.sr-only(for='inputPassword') Password
+        input.form-control#inputPassword(type='password' placeholder='Password' name='password' required)
+        button.btn.btn-lg.btn-primary.btn-block(type='submit') Sign up
+        p.mt-5.mb-3.text-muted © 2021

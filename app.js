@@ -4,8 +4,80 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var pug = require('pug');
+var pgp = require('pg-promise')();
+
+var util = require('./util.js')
+
+var db = pgp({
+  database: 'postgres',
+  server: 'localhost',
+  port: 5433,
+  user: 'postgres',
+  password: process.env.PASS
+});
+
+module.exports = {
+  database: db
+};
+
+function getQuizText() {
+  data = "";
+  for (let i=0;i<20;i++) {
+    data += `q${i+1} TEXT,\na${i+1} TEXT`;
+    if (i!=19) {
+      data += ",\n";
+    }
+  }
+  return data;
+}
+
+async function createQuizTable() {
+  await db.none(`CREATE TABLE IF NOT EXISTS quizes(
+    quizname TEXT,
+    quizid UUID,
+    ${getQuizText()}
+    );`
+  );
+}
+
+async function createUsersTable() {
+  await db.none(`CREATE TABLE IF NOT EXISTS users(
+    email TEXT,
+    username TEXT,
+    fname TEXT,
+    lname TEXT,
+    encpassword TEXT,
+    is_admin BOOLEAN,
+    uuid UUID,
+    total_score INTEGER,
+    quizes_played INTEGER,
+    average_score REAL
+    );`
+  );
+}
+
+async function generalMiddlewareAsync(req, res, next) {
+  var name = await util['validateUser'](req, res, db);
+
+  req.name = name[0];
+  console.log(name);
+  req.uuid = name[1];
+
+  next();
+}
+
+function generalMiddleware(req, res, next) {
+  generalMiddlewareAsync(req, res, next);
+}
+
+createQuizTable();
+createUsersTable();
 
 var indexRouter = require('./routes/index.js');
+var signinRouter = require('./routes/signin.js');
+var signupRouter = require('./routes/signup.js');
+var leaderboardsRouter = require('./routes/leaderboards.js');
+var usersRouter = require('./routes/users.js');
 
 var app = express();
 
@@ -19,7 +91,18 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use(generalMiddleware);
+
 app.use('/', indexRouter);
+app.use('/', signinRouter);
+app.use('/', signupRouter);
+app.use('/', leaderboardsRouter);
+app.use('/', usersRouter);
+
+module.exports = {
+  database: db,
+  app: app
+};
 
 // catch 404 and forward to error handler
 // app.use(function(req, res, next) {
@@ -41,4 +124,3 @@ app.use('/', indexRouter);
 //   res.render('template', { name: 'Express' });
 // });
 
-module.exports = app;
