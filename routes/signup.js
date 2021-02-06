@@ -9,8 +9,8 @@ var router = express.Router();
 
 var file = pug.renderFile('views/sign-up.pug', {active:"none", bodyClass:"text-center"})
 
-async function findUser(email) {
-    var data = await app.database.any(`SELECT * FROM users WHERE email = \'${email}\';`);
+async function findUser(email, username) {
+    var data = await app.database.any(`SELECT * FROM users WHERE email = \'${email}\' OR username = \'${username}\';`);
     return data;
 }
 
@@ -23,7 +23,7 @@ router.get('/sign-up', function(req, res, next) {
 });
 
 async function doStuff(req, res) {
-  var data = await findUser(req.body['email'])
+  var data = await findUser(req.body['email'], req.body['username'])
   try {
     const _ = data[0]['email'];
     res.redirect(req.header('Referer') || '/');

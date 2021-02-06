@@ -1,0 +1,24 @@
+extends template
+
+block content
+    br
+    - for (var i = 0; i < Math.ceil(data.length/2); i++) {
+    div.row
+        - if (data.length % 2 == 1 && i * 2 == data.length-1) {
+        div.col-sm-6
+            a(href=`/quiz/${data[i*2]['quizid']}`)
+                div.card
+                    div.card-body
+                        h5.card-title #{data[i*2]['quizname']}
+                        p.card-text #{data[i*2]['quizname']}
+        - } else {
+        - for (var j = 0; j < 2; j++) {
+        div.col-sm-6
+            a(href=`/quiz/${data[i*2+1]['quizid']}`)
+                div.card
+                    div.card-body
+                        h5.card-title #{data[i*2+j]['quizname']}
+                        p.card-text #{data[i*2+j]['quizname']}
+        - }
+        - }
+    - }

@@ -29,14 +29,14 @@ body(class=bodyClass)
                         span.sr-only (Current)
                 else
                     a.nav-item.nav-link.active(href='/leaderboards') Leaderboards
-                if active === 'take_a_quiz'
+                if active === 'takeaquiz'
                     a.nav-item.nav-link.active(href='/takeaquiz') Take a Quiz
                         span.sr-only (Current)
                 else
                     a.nav-item.nav-link.active(href='/takeaquiz') Take a Quiz
                 if username !== 'invalid'
                     a(href='/user/' + username)
-                        button.btn.btn-outline-success.my-2.my-sm-0() #{username}
+                        button.btn.btn-outline-success.my-2.my-sm-0 #{username}
                 else
                     a(href='/sign-in')
                         button.btn.btn-outline-success.my-2.my-sm-0 Sign In

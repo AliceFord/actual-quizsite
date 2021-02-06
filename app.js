@@ -13,32 +13,22 @@ var db = pgp({
   server: 'localhost',
   port: 5433,
   user: 'postgres',
-  password: process.env.PASS
+  password: 'password'
 });
 
 module.exports = {
   database: db
 };
 
-function getQuizText() {
-  data = "";
-  for (let i=0;i<20;i++) {
-    data += `q${i+1} TEXT,\na${i+1} TEXT`;
-    if (i!=19) {
-      data += ",\n";
-    }
-  }
-  return data;
-}
-
 async function createQuizTable() {
   await db.none(`CREATE TABLE IF NOT EXISTS quizes(
     quizname TEXT,
     quizid UUID,
-    ${getQuizText()}
+    number_of_questions INTEGER,
+    quizdata TEXT
     );`
   );
-}
+} // INSERT INTO quizes(quizname, quizid, number_of_questions, quizdata) VALUES('Test Quiz', 'c0e57d95-adfe-448b-a798-d4a57027fc83', 2, '{""q1"": ""What is your name?"",""q2"": ""What is your birthday?""}');
 
 async function createUsersTable() {
   await db.none(`CREATE TABLE IF NOT EXISTS users(
@@ -78,6 +68,8 @@ var signinRouter = require('./routes/signin.js');
 var signupRouter = require('./routes/signup.js');
 var leaderboardsRouter = require('./routes/leaderboards.js');
 var usersRouter = require('./routes/users.js');
+var takeaquizRouter = require('./routes/takeaquiz.js');
+var quizesRouter = require('./routes/quizes.js');
 
 var app = express();
 
@@ -98,6 +90,8 @@ app.use('/', signinRouter);
 app.use('/', signupRouter);
 app.use('/', leaderboardsRouter);
 app.use('/', usersRouter);
+app.use('/', takeaquizRouter);
+app.use('/', quizesRouter);
 
 module.exports = {
   database: db,

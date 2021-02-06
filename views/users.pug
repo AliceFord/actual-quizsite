@@ -2,7 +2,17 @@ extends template
 
 block extraScripts
     link(rel='stylesheet' href='/stylesheets/signin.css')
+    script(src="/javascripts/admin.js")
 
 block content
-    form.form-signin(style='text-align: center!important;' method='post')
-        button.btn.btn-lg.btn-outline-success.btn-block(type='submit') Sign out
+    div
+        form.form-signin(style='text-align: center!important;' method='post')
+            button.btn.btn-lg.btn-outline-success.btn-block(type='submit') Sign out
+        - if (is_admin) {
+        form#mainForm(style='text-align: center!important;' method='post')
+            h4.mb-3.font-weight-normal Create quiz
+            input.form-control#inputQuizName(type='text' placeholder='Quiz Name' name='quizName' required autofocus)
+            input.form-control#inputNumberOfQuestions(type='number' step='1' placeholder='Number of Questions' name='numberOfQuestions' required onChange='updateQuestionList(this.value);')
+            div#mainFormDiv
+            button.btn.btn-lg.btn-primary.btn-block(type='submit', name='test') Create Quiz
+        - }

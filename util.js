@@ -11,12 +11,12 @@ async function _validateUser(req, res, db=undefined) {
             let newUUID = uuidv4();
             await db.none(`UPDATE users\nSET uuid = \'${newUUID}\'\nWHERE\n\temail=\'${email}\';`)
             res.cookie('uuid', newUUID);
-            return [data[0]['username'], newUUID];
+            return [data[0]['username'], newUUID, data[0]['is_admin']];
         } else {
             console.log("Invalid");
             res.cookie('email', '', {maxAge: 0});
             res.cookie('uuid', '', {maxAge: 0});
-            return ["invalid", ""];
+            return ["invalid", "", false];
         }
     } else {
         console.log("Invalid");
@@ -24,12 +24,12 @@ async function _validateUser(req, res, db=undefined) {
             res.cookie('email', '', {maxAge: 0});
             res.cookie('uuid', '', {maxAge: 0});
         }
-        return ["invalid", ""];
+        return ["invalid", "", false];
     }
 }
 
-async function _findUsers(condition, db) {
-    var data = await db.any(`SELECT * FROM users WHERE ${condition};`);
+async function _findUsers(condition, db, queryDatabase="users") {
+    var data = await db.any(`SELECT * FROM ${queryDatabase} WHERE ${condition};`);
     return data;
 }
 
