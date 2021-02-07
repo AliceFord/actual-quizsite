@@ -28,7 +28,17 @@ async function createQuizTable() {
     quizdata TEXT
     );`
   );
-} // INSERT INTO quizes(quizname, quizid, number_of_questions, quizdata) VALUES('Test Quiz', 'c0e57d95-adfe-448b-a798-d4a57027fc83', 2, '{""q1"": ""What is your name?"",""q2"": ""What is your birthday?""}');
+}
+
+async function createQuestionsTable() {
+  await db.none(`CREATE TABLE IF NOT EXISTS questions(
+    questionid UUID,
+    prompt TEXT,
+    type TEXT,
+    options TEXT,
+    answer TEXT
+  );`)
+}
 
 async function createUsersTable() {
   await db.none(`CREATE TABLE IF NOT EXISTS users(
@@ -61,6 +71,7 @@ function generalMiddleware(req, res, next) {
 }
 
 createQuizTable();
+createQuestionsTable();
 createUsersTable();
 
 var indexRouter = require('./routes/index.js');
