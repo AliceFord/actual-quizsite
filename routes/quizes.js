@@ -3,7 +3,6 @@ var pug = require('pug');
 
 var app = require('../app.js');
 var util = require('../util.js');
-const { v4: uuidv4 } = require('uuid');
 
 var router = express.Router();
 
@@ -12,8 +11,14 @@ async function get(req, res) {
         var user = await util.findUsers(`uuid = '${req.uuid}'`, app.database);
         var data = await util.findUsers(`quizid = '${req.params.quizid}'`, app.database, "quizes");
         if (user !== []) {
-            console.log
-            var file = pug.renderFile('views/quizes.pug', {active:"none", bodyClass:'text-center', name:req.name, quizdata:JSON.parse(data[0]['quizdata'])});
+            let parsedJSON = JSON.parse(data[0]['quizdata']);
+            let finalQuizData = {};
+            for (const i of Object.keys(parsedJSON)) {
+                let question = await util.findUsers(`questionid = \'${parsedJSON[i]}\'`, app.database, "questions")
+                finalQuizData[i] = question[0];
+            };
+            console.log(finalQuizData)
+            var file = pug.renderFile('views/quizes.pug', {active:"none", bodyClass:'text-center', name:req.name, quizdata:finalQuizData});
             res.send(file);
         } else {
             console.log("You're not meant to be here!")

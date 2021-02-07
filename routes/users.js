@@ -38,7 +38,14 @@ async function addData(req, res, next, json) {
     res.redirect('/');
 }
 
-router.post('/user/:username', function(req, res, next) {
+async function addQuestion(req, i) {
+    let u = uuidv4();
+    await app.database.none(`INSERT INTO questions(questionid, prompt, type, options, answer)\n
+    VALUES (\'${u}\', \'${req.body[`question${i}`]}\', \'choice\', \'${JSON.stringify([req.body[`option1${i}`], req.body[`option2${i}`], req.body[`option3${i}`], req.body[`option4${i}`]])}\', \'${req.body[`answer${i}`]}\');`) 
+    return u;
+}
+
+async function post(req, res, next) {
     if (req.body['quizName'] === undefined) {
         res.cookie('email', '', {maxAge: 0});
         res.cookie('uuid', '', {maxAge: 0});
@@ -46,11 +53,15 @@ router.post('/user/:username', function(req, res, next) {
     } else {
         data = {};
         for (let i = 0; i < req.body['numberOfQuestions']; i++) {
-            data[`q${i+1}`] = req.body[`question${i+1}`];
-            data[`a${i+1}`] = req.body[`answer${i+1}`];
+            let uuid = await addQuestion(req, i+1);
+            data[`q${i+1}`] = uuid;
         }
         addData(req, res, next, JSON.stringify(data))
     }
+}
+
+router.post('/user/:username', function(req, res, next) {
+    post(req, res, next);
 });
 
 module.exports = router;
