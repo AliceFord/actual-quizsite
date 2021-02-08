@@ -5,11 +5,12 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var pug = require('pug');
 var pgp = require('pg-promise')();
+const { Client } = require('pg');
 
 var util = require('./util.js')
 
-var db = pgp(process.env.DATABASE_URL + "?ssl=true");
-db.connect();
+pgp.pg.defaults.ssl = true;
+var db = pgp(process.env.DATABASE_URL);
 
 module.exports = {
   database: db
