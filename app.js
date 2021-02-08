@@ -8,13 +8,7 @@ var pgp = require('pg-promise')();
 
 var util = require('./util.js')
 
-var db = pgp({
-  database: 'postgres',
-  server: 'localhost',
-  port: 5433,
-  user: 'postgres',
-  password: 'password'
-});
+var db = pgp(process.env.DATABASE_URL);
 
 module.exports = {
   database: db
