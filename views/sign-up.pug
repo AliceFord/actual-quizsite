@@ -2,6 +2,14 @@ extends template
 
 block extraScripts
     link(rel='stylesheet' href='/stylesheets/signin.css')
+    script(language='javascript' type='text/javascript').
+        function check(input) {
+            if (input.value != document.getElementById('inputPassword').value) {
+                input.setCustomValidity("Password Must Be Matching.")
+            } else {
+                input.setCustomValidity("");
+            }
+        }
 
 block content
     form.form-signin(style='text-align: center!important;' method='post')
@@ -16,5 +24,7 @@ block content
         input.form-control#inputEmail(type='email' placeholder='Email address' name='email' required)
         label.sr-only(for='inputPassword') Password
         input.form-control#inputPassword(type='password' placeholder='Password' name='password' required)
+        label.sr-only(for='inputPassword') Confirm Password
+        input.form-control#inputPasswordConfirm(type='password' placeholder='Confirm Password' name='password_confirm' oninput='check(this)' required)
         button.btn.btn-lg.btn-primary.btn-block(type='submit') Sign up
         p.mt-5.mb-3.text-muted © 2021

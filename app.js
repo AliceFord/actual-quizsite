@@ -8,7 +8,7 @@ var pgp = require('pg-promise')();
 
 var util = require('./util.js')
 
-pgp.pg.defaults.ssl = true;
+//pgp.pg.defaults.ssl = true;
 var db = pgp(process.env.DATABASE_URL);
 
 module.exports = {
