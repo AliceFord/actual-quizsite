@@ -1,18 +1,36 @@
 extends template
 
 block extraScripts
-    link(rel='stylesheet' href='/stylesheets/signin.css')
+    //link(rel='stylesheet' href='/stylesheets/signin.css')
     script(src="/javascripts/quizes.js")
 
 block content
-    form.form-signin(style='text-align: center!important;' method='post')
+    br
+    form.form-signin.form-inline(style='text-align: center!important;' method='post')
         each val, key in quizdata
-            label #{val['prompt']}
-            - var options = JSON.parse(val['options']);
-            - for(let i = 0;i < options.length; i++) {
-            - var currentKey = key + "opt" + (i+1);
-            div.form-check
-                input.form-check-input(type='radio' name=currentKey value=options[i])
-                label.form-check-label(for=currentKey) #{options[i]}
-            - }
+            div.form-group.row
+                if key != "uuid"
+                    label #{val['prompt']}
+                    - var options = JSON.parse(val['options']);
+                    - for(let i = 0;i < options.length; i++) {
+                    - var currentKey = key;
+                    div.form-check-inline.btn-group(data-toggle='buttons')
+                        if (finishedQuiz)
+                            if (validatedData[key][1] === false && validatedData[key][0] === options[i])
+                                label.form-control.form-check-label.btn.btn-outline-primary(for=currentKey style='background-color: green;') #{options[i]}
+                                    input.form-control.form-check-input(type='radio' name=currentKey value=options[i] disabled=true checked)
+                            else if (validatedData[key][1] !== false && validatedData[key][0] === options[i])
+                                label.form-control.form-check-label.btn.btn-outline-primary(for=currentKey style='background-color: red;') #{options[i]}
+                                    input.form-control.form-check-input(type='radio' name=currentKey value=options[i] disabled=true checked)
+                            else if (validatedData[key][1] !== false && validatedData[key][1] === options[i])
+                                label.form-control.form-check-label.btn.btn-outline-primary(for=currentKey style='background-color: green;') #{options[i]}
+                                    input.form-control.form-check-input(type='radio' name=currentKey value=options[i] disabled=true checked)
+                            else
+                                label.form-control.form-check-label.btn.btn-outline-primary(for=currentKey) #{options[i]}
+                                    input.form-control.form-check-input(type='radio' name=currentKey value=options[i] disabled=true)
+                        else
+                            label.form-control.form-check-label.btn.btn-outline-primary(for=currentKey) #{options[i]}
+                                    input.form-control.form-check-input(type='radio' name=currentKey value=options[i])
+                    - }
+                    br
         button.btn.btn-lg.btn-primary.btn-block(type='submit') Submit

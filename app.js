@@ -25,7 +25,8 @@ async function createQuizTable() {
     quizname TEXT,
     quizid UUID,
     number_of_questions INTEGER,
-    quizdata TEXT
+    quizdata TEXT,
+    locked_users TEXT
     );`
   );
 }

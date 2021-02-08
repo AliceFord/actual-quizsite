@@ -34,7 +34,7 @@ router.get('/user/:username', function(req, res, next) {
 });
 
 async function addData(req, res, next, json) {
-    await app.database.none(`INSERT INTO quizes(quizname, quizid, number_of_questions, quizdata)\nVALUES (\'${req.body['quizName']}\', \'${uuidv4()}\', ${req.body['numberOfQuestions']}, \'${json}\');`) 
+    await app.database.none(`INSERT INTO quizes(quizname, quizid, number_of_questions, quizdata, locked_users)\nVALUES (\'${req.body['quizName']}\', \'${uuidv4()}\', ${req.body['numberOfQuestions']}, \'${json}\', \'[]\');`) 
     res.redirect('/');
 }
 
