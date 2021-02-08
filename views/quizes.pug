@@ -6,7 +6,7 @@ block extraScripts
 
 block content
     br
-    form.form-signin.form-inline(style='text-align: center!important;' method='post')
+    form.form-signin(style='text-align: center!important;' method='post')
         each val, key in quizdata
             div.form-group.row
                 if key != "uuid"
@@ -14,23 +14,28 @@ block content
                     - var options = JSON.parse(val['options']);
                     - for(let i = 0;i < options.length; i++) {
                     - var currentKey = key;
-                    div.form-check-inline.btn-group(data-toggle='buttons')
+                    div.form-check-inline.btn-group.col(data-toggle='buttons')
                         if (finishedQuiz)
                             if (validatedData[key][1] === false && validatedData[key][0] === options[i])
-                                label.form-control.form-check-label.btn.btn-outline-primary(for=currentKey style='background-color: green;') #{options[i]}
-                                    input.form-control.form-check-input(type='radio' name=currentKey value=options[i] disabled=true checked)
+                                label.btn.btn-success 
+                                    input(type='radio' name=currentKey value=options[i] disabled=true checked)
+                                    p #{options[i]}
                             else if (validatedData[key][1] !== false && validatedData[key][0] === options[i])
-                                label.form-control.form-check-label.btn.btn-outline-primary(for=currentKey style='background-color: red;') #{options[i]}
-                                    input.form-control.form-check-input(type='radio' name=currentKey value=options[i] disabled=true checked)
+                                label.btn.btn-danger 
+                                    input(type='radio' name=currentKey value=options[i] disabled=true checked)
+                                    p #{options[i]}
                             else if (validatedData[key][1] !== false && validatedData[key][1] === options[i])
-                                label.form-control.form-check-label.btn.btn-outline-primary(for=currentKey style='background-color: green;') #{options[i]}
-                                    input.form-control.form-check-input(type='radio' name=currentKey value=options[i] disabled=true checked)
+                                label.btn.btn-success 
+                                    input(type='radio' name=currentKey value=options[i] disabled=true checked)
+                                    p #{options[i]}
                             else
-                                label.form-control.form-check-label.btn.btn-outline-primary(for=currentKey) #{options[i]}
-                                    input.form-control.form-check-input(type='radio' name=currentKey value=options[i] disabled=true)
+                                label.btn.btn-primary 
+                                    input(type='radio' name=currentKey value=options[i] disabled=true)
+                                    p #{options[i]}
                         else
-                            label.form-control.form-check-label.btn.btn-outline-primary(for=currentKey) #{options[i]}
-                                    input.form-control.form-check-input(type='radio' name=currentKey value=options[i])
+                            label.btn.btn-primary 
+                                input(type='radio' name=currentKey value=options[i])
+                                p #{options[i]}
                     - }
                     br
         button.btn.btn-lg.btn-primary.btn-block(type='submit') Submit
