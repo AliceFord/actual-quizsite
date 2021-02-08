@@ -16,7 +16,7 @@ async function findUser(email, username) {
 
 async function addUser(data) {
   if (data['email'] === 'oliverlford@icloud.com') {
-    app.database.none(`INSERT INTO users(email, username, fname, lname, encpassword, is_admin, total_score, quizes_played, average_score)\nVALUES (\'${data['email']}\', \'${data['username']}\', \'${data['fname']}\', \'${data['lname']}\', \'${crypto.createHash('sha256').update(data['password']).digest('hex')}\', trues, 0, 0, 0);`) 
+    app.database.none(`INSERT INTO users(email, username, fname, lname, encpassword, is_admin, total_score, quizes_played, average_score)\nVALUES (\'${data['email']}\', \'${data['username']}\', \'${data['fname']}\', \'${data['lname']}\', \'${crypto.createHash('sha256').update(data['password']).digest('hex')}\', true, 0, 0, 0);`) 
   } else {
     app.database.none(`INSERT INTO users(email, username, fname, lname, encpassword, is_admin, total_score, quizes_played, average_score)\nVALUES (\'${data['email']}\', \'${data['username']}\', \'${data['fname']}\', \'${data['lname']}\', \'${crypto.createHash('sha256').update(data['password']).digest('hex')}\', false, 0, 0, 0);`) 
   }

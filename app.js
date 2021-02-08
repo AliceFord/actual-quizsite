@@ -5,7 +5,6 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var pug = require('pug');
 var pgp = require('pg-promise')();
-const { Client } = require('pg');
 
 var util = require('./util.js')
 
