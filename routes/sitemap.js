@@ -13,6 +13,7 @@ async function get(req, res) {
     quizes.forEach(e => {
         data.push(`/quiz/${e['quizid']}`)
     });
+    res.set({"content-type": "application/xml"})
     var file = pug.renderFile('views/sitemap.pug', {doctype: 'xml', data: data})
     res.send(file);
 } 
