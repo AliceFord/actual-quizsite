@@ -11,7 +11,7 @@ async function get(req, res) {
     let data = ["leaderboards", "sign-in", "sign-up", "takeaquiz", "", ""];
     var quizes = await util.findUsers('1=1', app.database, "quizes")
     quizes.forEach(e => {
-        data.push(`/quiz/${e['quizid']}`)
+        data.push(`quiz/${e['quizid']}`)
     });
     res.set({"content-type": "application/xml"})
     var file = pug.renderFile('views/sitemap.pug', {doctype: 'xml', data: data})
