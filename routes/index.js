@@ -7,7 +7,7 @@ var util = require('../util.js')
 var router = express.Router();
 
 router.get('/', function(req, res, next) {
-  var file = pug.renderFile('views/index.pug', {active:"home", username:req.name})
+  var file = pug.renderFile('views/index.pug', {active:"home", username:req.name, title:"Home"})
   res.send(file);
 });
 

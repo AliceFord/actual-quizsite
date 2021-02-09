@@ -3,13 +3,19 @@ html
   head
     meta(charset="UTF-8")
     meta(name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no")
-    title= title
+    title  #{title} - RGS Quiz
     link(rel='stylesheet' href='/stylesheets/style.css')
     link(rel='stylesheet' href='/stylesheets/bootstrap.min.css')
     style(type='text/css').
         .navbar-collapse.collapse.in {
             display: block!important;
         }
+    script(src='https://www.googletagmanager.com/gtag/js?id=G-FBBLTC7XF1' async)
+    script.
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-FBBLTC7XF1');
     block extraScripts
 
 body(class=bodyClass)

@@ -13,7 +13,7 @@ async function get(req, res) {
         if (data !== []) {
             if (data[0]['username'] == req.params.username) {
                 console.log(data);
-                var file = pug.renderFile('views/users.pug', {active:"none", bodyClass:'text-center', name:req.name, is_admin: data[0]['is_admin']});
+                var file = pug.renderFile('views/users.pug', {active:"none", bodyClass:'text-center', name:req.name, is_admin: data[0]['is_admin'], title:"Users"});
                 res.send(file);
             } else {
                 console.log("You're not meant to be here!")

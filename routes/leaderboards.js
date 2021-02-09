@@ -10,7 +10,7 @@ var router = express.Router();
 async function get(req, res) {  
   var data = await util['findUsers']("1=1", app.database);
 
-  var file = pug.renderFile('views/leaderboards.pug', {active:"leaderboards", username:req.name, data:data})
+  var file = pug.renderFile('views/leaderboards.pug', {active:"leaderboards", username:req.name, data:data, title:"Leaderboards"})
 
   res.send(file);
 }

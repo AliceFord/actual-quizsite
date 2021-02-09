@@ -7,7 +7,7 @@ var app = require('../app.js')
 
 var router = express.Router();
 
-var file = pug.renderFile('views/sign-up.pug', {active:"none", bodyClass:"text-center"})
+var file = pug.renderFile('views/sign-up.pug', {active:"none", bodyClass:"text-center", title:"Sign Up"})
 
 async function findUser(email, username) {
     var data = await app.database.any(`SELECT * FROM users WHERE email = \'${email}\' OR username = \'${username}\';`);

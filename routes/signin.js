@@ -7,7 +7,7 @@ var app = require('../app.js')
 
 var router = express.Router();
 
-var file = pug.renderFile('views/sign-in.pug', {active:"none", bodyClass:"text-center"})
+var file = pug.renderFile('views/sign-in.pug', {active:"none", bodyClass:"text-center", title:"Sign In"})
 
 async function findUser(email) {
     var data = await app.database.any(`SELECT * FROM users WHERE email = \'${email}\';`);
@@ -31,12 +31,12 @@ function doStuff2(req, res, password) {
         let currentUUID = uuidv4();
         addUserUUID(req.body['email'], currentUUID);
         console.log(req.cookies);
-        res.cookie('email', req.body['email']).cookie('uuid', currentUUID).redirect('../');
+        res.cookie('email', req.body['email']).cookie('uuid', currentUUID).redirect('/');
     } else {
         console.log("NO");
         console.log(crypto.createHash('sha256').update(req.body['password']).digest('hex'));
         console.log(password);
-        res.redirect('../');
+        res.redirect('/sign-in');
     }
 }
 

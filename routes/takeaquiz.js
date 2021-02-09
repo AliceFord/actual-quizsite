@@ -9,7 +9,7 @@ var router = express.Router();
 async function get(req, res) {
     var data = await util.findUsers("1=1", app.database, "quizes");
 
-    var file = pug.renderFile('views/takeaquiz.pug', {active:"takeaquiz", data:data})
+    var file = pug.renderFile('views/takeaquiz.pug', {active:"takeaquiz", data:data, title:"Take A Quiz"})
 
     res.send(file);
 }

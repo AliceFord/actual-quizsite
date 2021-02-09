@@ -24,7 +24,7 @@ async function get(req, res) {
         if (user !== []) {
             finalQuizData = await processData(data);
             console.log(finalQuizData)
-            var file = pug.renderFile('views/quizes.pug', {active:"none", bodyClass:'text-center', name:req.name, quizdata:finalQuizData, finishedQuiz:false});
+            var file = pug.renderFile('views/quizes.pug', {active:"none", bodyClass:'text-center', name:req.name, quizdata:finalQuizData, finishedQuiz:false, title:"Quizes"});
             res.send(file);
         } else {
             console.log("You're not meant to be here!")
