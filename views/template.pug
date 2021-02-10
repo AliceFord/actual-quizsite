@@ -40,6 +40,11 @@ body(class=bodyClass)
                         span.sr-only (Current)
                 else
                     a.nav-item.nav-link.active(href='/takeaquiz') Take a Quiz
+                if active === 'random-quiz'
+                    a.nav-item.nav-link.active(href='/random-quiz') Random Quiz
+                        span.sr-only (Current)
+                else
+                    a.nav-item.nav-link.active(href='/random-quiz') Random Quiz
                 if username !== 'invalid'
                     a(href='/user/' + username)
                         button.btn.btn-outline-success.my-2.my-sm-0 #{username}

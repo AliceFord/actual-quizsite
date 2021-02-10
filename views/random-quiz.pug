@@ -1,0 +1,29 @@
+extends template
+
+block extraScripts 
+    script(src="/javascripts/randomquiz.js") 
+
+block content
+    if (!doquiz)
+        br
+        form(style='text-align: center!important;' method='post')
+            label.sr-only(for='numOfQuestions') Number of Questions
+            input.form-control#numOfQuestions(type='number' step='1' min='1' max='20' placeholder='Number of Questions' name='numOfQuestions' required autofocus)
+            br
+            button.btn.btn-lg.btn-outline-success.btn-block Submit
+    else 
+        br
+        each val, key in quizdata
+            div.form-group.row(id=key)
+                if key != "uuid"
+                    label(ans=val['answer']) #{val['prompt']}
+                    - var options = JSON.parse(val['options']);
+                    - for(let i = 0;i < options.length; i++) {
+                    - var currentKey = key;
+                    div.form-check-inline.btn-group.col(data-toggle='buttons')
+                        label.btn.btn-primary 
+                            input.ip(type='radio' name=currentKey value=options[i])
+                            p #{options[i]}
+                    - }
+                    br
+        button.btn.btn-lg.btn-primary.btn-block(onclick='checkQuestions();') Submit

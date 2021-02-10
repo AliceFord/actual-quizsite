@@ -78,6 +78,7 @@ var usersRouter = require('./routes/users.js');
 var takeaquizRouter = require('./routes/takeaquiz.js');
 var quizesRouter = require('./routes/quizes.js');
 var sitemapRouter = require('./routes/sitemap.js');
+var randomQuizRouter = require('./routes/randomquiz.js');
 
 var app = express();
 
@@ -101,6 +102,7 @@ app.use('/', usersRouter);
 app.use('/', takeaquizRouter);
 app.use('/', quizesRouter);
 app.use('/', sitemapRouter);
+app.use('/', randomQuizRouter);
 
 module.exports = {
   database: db,
