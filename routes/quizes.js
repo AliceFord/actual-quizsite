@@ -23,7 +23,6 @@ async function get(req, res) {
         var data = await util.findUsers(`quizid = '${req.params.quizid}'`, app.database, "quizes");
         if (user !== []) {
             finalQuizData = await processData(data);
-            console.log(finalQuizData)
             var file = pug.renderFile('views/quizes.pug', {active:"none", bodyClass:'text-center', name:req.name, quizdata:finalQuizData, finishedQuiz:false, title:"Quizes"});
             res.send(file);
         } else {
@@ -73,6 +72,15 @@ async function lockUserAndAddScore(user, data, validatedData) {
     }
 }
 
+async function updateQuestion(validatedData, finalQuizData) {
+    for (const i of Object.keys(validatedData)) {
+        if (validatedData[i][1] !== false) {
+            await app.database.none(`UPDATE questions\nSET correct_answers = \'${finalQuizData[i]['correct_answers']+1}\'\nWHERE\n\tquestionid=\'${finalQuizData[i]['questionid']}\';`);
+        }
+        await app.database.none(`UPDATE questions\nSET total_answers = \'${finalQuizData[i]['total_answers']+1}\'\nWHERE\n\tquestionid=\'${finalQuizData[i]['questionid']}\';`);
+    }
+}
+
 async function post(req, res) {
     if (req.uuid != '') {
         var user = await util.findUsers(`uuid = '${req.uuid}'`, app.database);
@@ -81,6 +89,7 @@ async function post(req, res) {
             let finalQuizData = await processData(data);
             let validatedData = validate(req.body, finalQuizData);
             await lockUserAndAddScore(user, data, validatedData);
+            await updateQuestion(validatedData, finalQuizData);
             var file = pug.renderFile('views/quizes.pug', {active:"none", bodyClass:'text-center', name:req.name, quizdata:finalQuizData, finishedQuiz:true, validatedData:validatedData});
             res.send(file);
         } else {

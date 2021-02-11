@@ -32,7 +32,9 @@ async function createQuestionsTable() {
     prompt TEXT,
     type TEXT,
     options TEXT,
-    answer TEXT
+    answer TEXT,
+    correct_answers INTEGER,
+    total_answers INTEGER
   );`)
 }
 

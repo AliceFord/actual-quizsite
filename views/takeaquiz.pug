@@ -10,7 +10,7 @@ block content
                 div.card
                     div.card-body
                         h5.card-title #{data[i*2]['quizname']}
-                        p.card-text #{data[i*2]['quizname']}
+                        p.card-text Average score: #{questionPercentages[i*2]*100}%
         - } else {
         - for (var j = 0; j < 2; j++) {
         div.col-sm-6
@@ -18,7 +18,7 @@ block content
                 div.card
                     div.card-body
                         h5.card-title #{data[i*2+j]['quizname']}
-                        p.card-text #{data[i*2+j]['quizname']}
+                        p.card-text Average score: #{questionPercentages[i*2+j]*100}%
         - }
         - }
     - }
