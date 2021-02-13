@@ -40,8 +40,8 @@ async function addData(req, res, next, json) {
 
 async function addQuestion(req, i) {
     let u = uuidv4();
-    await app.database.none(`INSERT INTO questions(questionid, prompt, type, options, answer)\n
-    VALUES (\'${u}\', \'${req.body[`question${i}`]}\', \'choice\', \'${JSON.stringify([req.body[`option1${i}`], req.body[`option2${i}`], req.body[`option3${i}`], req.body[`option4${i}`]])}\', \'${req.body[`answer${i}`]}\');`) 
+    await app.database.none(`INSERT INTO questions(questionid, prompt, type, options, answer, subject, topic)\n
+    VALUES (\'${u}\', \'${req.body[`question${i}`]}\', \'choice\', \'${JSON.stringify([req.body[`option1${i}`], req.body[`option2${i}`], req.body[`option3${i}`], req.body[`option4${i}`]])}\', \'${req.body[`answer${i}`]}\', \'${req.body[`subject_${i}`]}\', \'${req.body[`topic${i}`]}\');`) 
     return u;
 }
 

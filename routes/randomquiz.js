@@ -41,6 +41,6 @@ router.post('/random-quiz', function(req, res) {
     } else {
         res.redirect('/sign-in');
     }
-})
+});
 
 module.exports = router;
