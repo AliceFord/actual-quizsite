@@ -12,13 +12,14 @@ async function get(req, res) {
     for (let i = 0; i < data.length; i++) {
         let currentData = JSON.parse(data[i]['quizdata']);
         let currentPercentage = 1;
+        let j = 0;
         for (let [key, value] of Object.entries(currentData)) {
             let questionData = await util.findUsers(`questionid=\'${value}\'`, app.database, "questions");
-            console.log(questionData);
-            currentPercentage *= questionData[0]['correct_answers'];
-            currentPercentage /= questionData[0]['total_answers'];
+            currentPercentage += questionData[0]['correct_answers'] / questionData[0]['total_answers'];
+            j++;
         }
-        questionPercentages.push(currentPercentage);
+        console.log(currentPercentage / j);
+        questionPercentages.push(currentPercentage / j);
     }
     
     var file = pug.renderFile('views/takeaquiz.pug', {active:"takeaquiz", data:data, title:"Take A Quiz", questionPercentages: questionPercentages})

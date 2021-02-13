@@ -74,7 +74,7 @@ async function lockUserAndAddScore(user, data, validatedData) {
 
 async function updateQuestion(validatedData, finalQuizData) {
     for (const i of Object.keys(validatedData)) {
-        if (validatedData[i][1] !== false) {
+        if (validatedData[i][1] === false) {
             await app.database.none(`UPDATE questions\nSET correct_answers = \'${finalQuizData[i]['correct_answers']+1}\'\nWHERE\n\tquestionid=\'${finalQuizData[i]['questionid']}\';`);
         }
         await app.database.none(`UPDATE questions\nSET total_answers = \'${finalQuizData[i]['total_answers']+1}\'\nWHERE\n\tquestionid=\'${finalQuizData[i]['questionid']}\';`);
