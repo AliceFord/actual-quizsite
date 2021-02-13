@@ -11,14 +11,13 @@ async function get(req, res) {
     let questionPercentages = [];
     for (let i = 0; i < data.length; i++) {
         let currentData = JSON.parse(data[i]['quizdata']);
-        let currentPercentage = 1;
+        let currentPercentage = 0;
         let j = 0;
         for (let [key, value] of Object.entries(currentData)) {
             let questionData = await util.findUsers(`questionid=\'${value}\'`, app.database, "questions");
             currentPercentage += questionData[0]['correct_answers'] / questionData[0]['total_answers'];
             j++;
         }
-        console.log(currentPercentage / j);
         questionPercentages.push(currentPercentage / j);
     }
     
